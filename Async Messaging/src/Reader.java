@@ -7,6 +7,21 @@ public class Reader
 {
     public static void main(String[] args) throws SQLException
     {
+        /*
+           var ips = ReadDbIpList();
+           for each (ip in ips) {
+                t = new Thread();
+                t.connect(ip);
+           }
+
+           while (userInput) {
+               text = userInput.Read();
+               db = Random(thread).db;
+               db.Insert(text);
+           }
+         */
+
+
         String sql = "select name from product where id=8";
         String url = "jdbc:postgresql://localhost:5432/dbtest";
         String username = "postgres";
