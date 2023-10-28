@@ -20,15 +20,5 @@ public class Reader
                db.Insert(text);
            }
          */
-
-
-        String sql = "select name from product where id=8";
-        String url = "jdbc:postgresql://localhost:5432/dbtest";
-        String username = "postgres";
-        String password = "1234";
-
-        Connection con = DriverManager.getConnection(url, username , password);
-        Statement st = con.createStatement();
-        st.executeQuery(sql);
     }
 }
