@@ -1,13 +1,12 @@
 import java.sql.*;
 
-public class SenderThread extends Thread
-{
-    String url;
-    String username;
-    String password;
-    String sql = "INSERT INTO as_messages(sender_name, message, sent_time) VALUES(?, ?, ?)";
-    String senderName = "Dolph";
-    String message;
+public class SenderThread extends Thread {
+    private String url;
+    private String username;
+    private String password;
+    private static final String SQL = "INSERT INTO async_messages(sender_name, message, sent_time) VALUES(?, ?, ?)";
+    private static final String SENDER_NAME = "Fuad";
+    private String message;
 
     public SenderThread(String url, String username, String password, String message) {
         this.url = url;
@@ -16,27 +15,29 @@ public class SenderThread extends Thread
         this.message = message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public void run() {
-        Connection con = null;
-        try
-        {
-            Timestamp t = new Timestamp(System.currentTimeMillis());
-
-            con = DriverManager.getConnection(url, username , password);
-
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, senderName);
-            pst.setString(2, message);
-            pst.setTimestamp(3, t);
-            pst.executeUpdate();
-            //System.out.println("sent");
-            con.close();
-
-        } catch (SQLException e)
-        {
-            throw new RuntimeException(e);
+        try {
+            insertMessage();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
+    private void insertMessage() throws SQLException {
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             PreparedStatement pst = con.prepareStatement(SQL)) {
+
+            pst.setString(1, SENDER_NAME);
+            pst.setString(2, message);
+            pst.setTimestamp(3, currentTime);
+            pst.executeUpdate();
+        }
     }
 }
