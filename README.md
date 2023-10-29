@@ -1,4 +1,5 @@
 Sender Software:
+
     1. Prompts the user to input server IP addresses and corresponding database names. (since they may vary based on peoples implementation)
 
     2. When users are done entering database IPs and names, they can exit out of the loop by typing "exit"
