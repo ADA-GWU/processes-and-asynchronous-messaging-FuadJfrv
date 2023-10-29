@@ -5,10 +5,14 @@ public class Sender
 {
     public static void main(String[] args) throws SQLException
     {
+        String host = "127.0.0.1";
+        int port = 5432;
+        String dbName = "asyncdb";
 
-        String url = "jdbc:postgresql://localhost:5432/asyncdb";
+        String url = String.format("jdbc:postgresql://%s:%d/%s", host, port, dbName);
+
         String username = "postgres";
-        String password = "fufu9999";
+        String password = "123";
 
         while (true) {
             Scanner scanner = new Scanner(System.in);

@@ -6,7 +6,7 @@ public class SenderThread extends Thread
     String username;
     String password;
     String sql = "INSERT INTO as_messages(sender_name, message, sent_time) VALUES(?, ?, ?)";
-    String senderName = "Fuad";
+    String senderName = "Dolph";
     String message;
 
     public SenderThread(String url, String username, String password, String message) {
