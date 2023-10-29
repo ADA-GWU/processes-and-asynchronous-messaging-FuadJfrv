@@ -5,9 +5,30 @@ import java.util.Scanner;
 
 public class Reader {
     private String url;
-    private static final String USERNAME = "dist_user";
-    private static final String PASSWORD = "dist_pass_123";
+    private static final String USERNAME = "postgres";
+    private static final String PASSWORD = "123";
     private static final String SENDER_NAME = "Fuad";
+
+
+    public static void main(String[] args) {
+        //get server data
+        Map<String, String> serverData = readServerData();
+
+        //for each server create a thread
+        for (Map.Entry<String, String> entry : serverData.entrySet()) {
+            String host = entry.getKey();
+            String dbName = entry.getValue();
+
+            Reader reader = new Reader(host, dbName);
+            new Thread(() -> {
+                try {
+                    reader.startReading();
+                } catch (SQLException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
 
     public Reader(String host, String dbName) {
         this.url = String.format("jdbc:postgresql://%s:5432/%s", host, dbName);
@@ -62,26 +83,6 @@ public class Reader {
         String senderName;
         String text;
         Timestamp sentTime;
-    }
-
-    public static void main(String[] args) {
-        //get server data
-        Map<String, String> serverData = readServerData();
-
-        //for each server create a thread
-        for (Map.Entry<String, String> entry : serverData.entrySet()) {
-            String host = entry.getKey();
-            String dbName = entry.getValue();
-
-            Reader reader = new Reader(host, dbName);
-            new Thread(() -> {
-                try {
-                    reader.startReading();
-                } catch (SQLException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
     }
 
     // asks server IP and db name from the user same as in Sender class
